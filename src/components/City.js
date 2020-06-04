@@ -5,17 +5,15 @@ function City(props) {
     const [validationError, setValidationError] = useState(null);
 
     const validate = (event) => {
-//        const zipCodePattern = /^\d{5}$/;
-//        const valid = zipCodePattern.test(event.target.value);
-//        if (!valid) {
-//            setValidationError('* should be a 5 digit number only');
-//            props.clearResponse();
-//        } else {
-//            setValidationError('');
-//            props.onZipChange(event.target.value);
-//        }
-		  setValidationError('');
-          props.onCityChange(event.target.value);
+        const cityCodePattern = /^\w+$/;
+        const valid = cityCodePattern.test(event.target.value);
+        if (!valid) {
+            setValidationError('* should only contain a set of alphabets');
+            props.clearResponse();
+        } else {
+		    setValidationError('');
+            props.onCityChange(event.target.value);
+        }
     };
 
     return (
