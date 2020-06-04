@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import fetch from 'isomorphic-unfetch'
 import CityResponse from '../components/CityResponse';
 import City from '../components/City';
+import GoogleMap from '../components/GoogleMap';
 
 function AppContainer(props) {
 
@@ -25,6 +26,9 @@ function AppContainer(props) {
                 <div className="col-sm-4"></div>
                 <City onCityChange={handleCityChange} clearResponse={clearResponse}/>
                 <div className="col-sm-4"></div>
+            </div>
+            <div>
+            	<GoogleMap />
             </div>
             <div className="row mt-4">
                 <div className="col-sm-2"></div>
