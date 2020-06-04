@@ -172,4 +172,107 @@ describe('Get Weather', function() {
     assert(resMock.send.lastCall.args[0] === 'Name of the city is missing', 'Unexpected response:' + resMock.send.lastCall.args);
 
   });
+  
+  it('with valid coordinates', function() {
+  	reqMock = {
+      query: {
+        lat: -36.85,
+        long: 174.76
+      }
+    };
+    
+    const body = {
+    	cod: 200,
+    	name: 'Auckland',
+    	weather: [
+    		{
+    			main: 'cold'
+    		}
+    	],
+    	main: {
+    		temp: 12
+    	}
+    };
+    
+    const request = function( obj, callback ){
+      callback(null, null, body);
+    };
+
+    apiv1.__set__("request", request);
+
+    apiv1.getWeather5(reqMock, resMock);
+
+    assert(resMock.status.lastCall.calledWith(200), 'Unexpected response:' + resMock.status.lastCall.args);
+    assert(resMock.send.lastCall.args[0].city === 'Auckland', 'Unexpected response:' + resMock.send.lastCall.args[0].city);
+    assert(resMock.send.lastCall.args[0].weather === 'Conditions are cold and temperature is 12 C', 'Unexpected response:' + resMock.send.lastCall.args[0].weather);
+
+  });
+  
+  it('with invalid coordinates', function() {
+  	reqMock = {
+      query: {
+        lat: '',
+        long: ''
+      }
+    };
+    
+    const body = {
+    	cod: 200,
+    	name: 'Auckland',
+    	weather: [
+    		{
+    			main: 'cold'
+    		}
+    	],
+    	main: {
+    		temp: 12
+    	}
+    };
+    
+    const request = function( obj, callback ){
+      callback(null, null, body);
+    };
+
+    apiv1.__set__("request", request);
+
+    apiv1.getWeather5(reqMock, resMock);
+
+    assert(resMock.status.lastCall.calledWith(400), 'Unexpected response:' + resMock.status.lastCall.args);
+    assert(resMock.send.lastCall.args[0] === 'Coordinate values are missing', 'Unexpected response:' + resMock.send.lastCall.args);
+    
+  });
+  
+  it('with invalid boundary coordinates', function() {
+  	reqMock = {
+      query: {
+        lat: '-36.85a',
+        long: '174.76b'
+      }
+    };
+    
+    const body = {
+    	cod: 200,
+    	name: 'Auckland',
+    	weather: [
+    		{
+    			main: 'cold'
+    		}
+    	],
+    	main: {
+    		temp: 12
+    	}
+    };
+    
+    const request = function( obj, callback ){
+      callback(null, null, body);
+    };
+
+    apiv1.__set__("request", request);
+
+    apiv1.getWeather5(reqMock, resMock);
+
+    assert(resMock.status.lastCall.calledWith(400), 'Unexpected response:' + resMock.status.lastCall.args);
+    assert(resMock.send.lastCall.args[0] === 'Invalid coordinate values', 'Unexpected response:' + resMock.send.lastCall.args);
+    
+  });
 });

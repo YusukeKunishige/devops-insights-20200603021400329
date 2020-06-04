@@ -9,7 +9,6 @@ var request = REQUEST.defaults( {
 
 //var OPENWEATHERURL = "https://api.openweathermap.org/data/2.5/weather?appid=6b7b471967dd0851d0010cdecf28f829&units=imperial";
 var OPENCITYWEATHERURL = "https://api.openweathermap.org/data/2.5/weather?appid=6b7b471967dd0851d0010cdecf28f829&units=metric";
-
 //exports.getWeather = function(req, res) {
 //	var zip = req.query.zip;
 //	if( (zip === null) || (typeof(zip) === 'undefined') ) {
@@ -108,6 +107,45 @@ exports.getWeather4 = function(req, res) {
 	}
 
 	var aurl = OPENCITYWEATHERURL + '&q=' + cityName + ',nz';
+
+	request({
+		method: 'GET',
+        url: aurl,
+  		json: true
+    }, function(err, resp, body) {
+    	if(err) {
+    		res.status(400).send('Failed to get the data');
+    		//console.error("Failed to send request to openweathermap.org", err);
+    	} else {
+    		if(body.cod === 200) {
+    			var weath = "Conditions are " + body.weather[0].main + " and temperature is " + body.main.temp + ' C';
+    			var response = {city: body.name, weather: weath};
+    			return res.status(200).send(response);
+    		} else {
+                return res.status(400).send({msg:'Failed'});
+            }
+    	}
+    });
+
+};
+router.get('/getWeather4', exports.getWeather4);
+
+exports.getWeather5 = function(req, res) {
+	var lat = req.query.lat;
+	var long = req.query.long;
+	if( (lat === null) || (typeof(lat) === 'undefined')　|| (lat === '') ||  (long === null) || (typeof(long) === 'undefined')　|| (long === '') ) {
+		return res.status(400).send('Coordinate values are missing');
+	}
+	
+	var regex = /^-?\d+(\.\d+)?$/;
+	var validLat = regex.test(lat);
+	var validLong = regex.test(long);
+	
+	if ((!validLat) || (!validLong)) {
+		return res.status(400).send('Invalid coordinate values');
+	}
+
+	var aurl = OPENCITYWEATHERURL + '&lat=' + lat + '&lon=' + long;
 
 	request({
 		method: 'GET',
