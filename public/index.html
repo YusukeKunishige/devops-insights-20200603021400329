@@ -39,6 +39,7 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <div id="map"></div>
+    <div id="mapResults"></div>
     <script>
       function initMap() {
         var myLatlng = {lat: -40.9006, lng: 174.8860};
@@ -48,12 +49,60 @@
           
         // Configure the click listener.
         map.addListener('click', function(mapsMouseEvent) {
-
-          // Create a new InfoWindow.
-          var infoWindow = new google.maps.InfoWindow({position: mapsMouseEvent.latLng});
-          infoWindow.setContent(mapsMouseEvent.latLng.toString());
-          infoWindow.open(map);
+			var latLng = mapsMouseEvent.latLng.toString();
+            latLng = latLng.replace("(", "");
+            latLng = latLng.replace(")", "");
+            latLng = latLng.replace(" ", "");
+            var latLngArr = latLng.split(',');
+            console.log(latLngArr[0]);
+            console.log(latLngArr[1]);
+            var baseURL = 'https://api.openweathermap.org/data/2.5/weather?appid=6b7b471967dd0851d0010cdecf28f829&units=metric';
+            fetch(baseURL + '&lat=' + latLngArr[0] + '&lon=' + latLngArr[1]).then(response => response.json()).then(json => printRes(json));
         });
+      }
+      
+      function printRes(json) {
+      	var _containDiv = document.getElementById('mapResults');
+      	var _colDiv = document.createElement("div");
+      	_colDiv.className = "col-sm-8";
+      	var _table = document.createElement("table");
+      	_table.className = 'table table-info table-hover';
+      	var _tbody = document.createElement("tbody");
+      	
+      	var _tr1 = document.createElement("tr");
+      	_tr1.innerHTML = "<td>City</td><td>" + json.name + "</td>";
+      	
+      	var _tr2 = document.createElement("tr");
+		_tr2.innerHTML = "<td>Temperature</td><td>" + json.main.temp + "</td>";
+      	
+      	var _tr3 = document.createElement("tr");
+      	_tr3.innerHTML = "<td>Pressure</td><td>" + json.main.pressure + "</td>";
+	
+      	var _tr4 = document.createElement("tr");
+      	_tr4.innerHTML = "<td>Humidity</td><td>" + json.main.humidity + "</td>";
+
+    	var _tr5 = document.createElement("tr");
+      	_tr5.innerHTML = "<td>Temperature (Min)</td><td>" + json.main.temp_min + "</td>";
+      	
+      	var _tr6 = document.createElement("tr");
+      	_tr6.innerHTML = "<td>Temperature (Max)</td><td>" + json.main.temp_max + "</td>";
+      	
+      	var _tr7 = document.createElement("tr");
+      	_tr7.innerHTML = "<td>Conditions</td><td>" + json.weather[0].description + "</td>";
+      	
+      	_tbody.appendChild(_tr1);
+      	_tbody.appendChild(_tr2);
+      	_tbody.appendChild(_tr3);
+      	_tbody.appendChild(_tr4);
+      	_tbody.appendChild(_tr5);
+      	_tbody.appendChild(_tr6);
+      	_tbody.appendChild(_tr7);
+      	
+      	_table.appendChild(_tbody);
+      	_colDiv.appendChild(_table);
+      	_containDiv.appendChild(_colDiv);
+
+      	
       }
     </script>
     <script async defer
