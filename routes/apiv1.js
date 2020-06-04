@@ -8,7 +8,8 @@ var request = REQUEST.defaults( {
 });
 
 //var OPENWEATHERURL = "https://api.openweathermap.org/data/2.5/weather?appid=6b7b471967dd0851d0010cdecf28f829&units=imperial";
-var OPENCITYWEATHERURL = "https://api.openweathermap.org/data/2.5/weather?appid=6b7b471967dd0851d0010cdecf28f829&units=metric";
+//var OPENCITYWEATHERURL = "https://api.openweathermap.org/data/2.5/weather?appid=6b7b471967dd0851d0010cdecf28f829&units=metric";
+var OPENCITYWEATHERURL = "https://api.openweathermap.org/da";
 
 //exports.getWeather = function(req, res) {
 //	var zip = req.query.zip;
@@ -108,6 +109,7 @@ exports.getWeather4 = function(req, res) {
 	}
 
 	var aurl = OPENCITYWEATHERURL + '&q=' + cityName + ',nz';
+	var 
 
 	request({
 		method: 'GET',
