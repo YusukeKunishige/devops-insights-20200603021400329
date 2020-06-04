@@ -109,13 +109,13 @@ describe('Get Weather', function() {
   it('with valid city name', function() {
   	reqMock = {
       query: {
-        cityName: 'Hamilt'
+        cityName: 'Hamilton'
       }
     };
     
     const body = {
     	cod: 200,
-    	name: 'Hamilt',
+    	name: 'Hamilton',
     	weather: [
     		{
     			main: 'hot'
@@ -135,7 +135,7 @@ describe('Get Weather', function() {
     apiv1.getWeather4(reqMock, resMock);
 
     assert(resMock.status.lastCall.calledWith(200), 'Unexpected response:' + resMock.status.lastCall.args);
-    assert(resMock.send.lastCall.args[0].city === 'Hamilt', 'Unexpected response:' + resMock.send.lastCall.args[0].city);
+    assert(resMock.send.lastCall.args[0].city === 'Hamilton', 'Unexpected response:' + resMock.send.lastCall.args[0].city);
     assert(resMock.send.lastCall.args[0].weather === 'Conditions are hot and temperature is 30 C', 'Unexpected response:' + resMock.send.lastCall.args[0].weather);
 
   });
@@ -169,7 +169,7 @@ describe('Get Weather', function() {
     apiv1.getWeather4(reqMock, resMock);
 
     assert(resMock.status.lastCall.calledWith(200), 'Unexpected response:' + resMock.status.lastCall.args);
-    assert(resMock.send.lastCall.args[0].city === 'Hamilt', 'Unexpected response:' + resMock.send.lastCall.args[0].city);
+    assert(resMock.send.lastCall.args[0].city === 'Hamilton', 'Unexpected response:' + resMock.send.lastCall.args[0].city);
     assert(resMock.send.lastCall.args[0].weather === 'Conditions are hot and temperature is 30 C', 'Unexpected response:' + resMock.send.lastCall.args[0].weather);
   });
   
