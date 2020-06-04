@@ -168,9 +168,9 @@ describe('Get Weather', function() {
 
     apiv1.getWeather4(reqMock, resMock);
 
-    assert(resMock.status.lastCall.calledWith(400), 'Unexpected response:' + resMock.status.lastCall.args);
-    assert(resMock.send.lastCall.calledWith('Name of the city is missing'), 'Unexpected response:' + resMock.send.lastCall.args);
-
+    assert(resMock.status.lastCall.calledWith(200), 'Unexpected response:' + resMock.status.lastCall.args);
+    assert(resMock.send.lastCall.args[0].city === 'Hamilt', 'Unexpected response:' + resMock.send.lastCall.args[0].city);
+    assert(resMock.send.lastCall.args[0].weather === 'Conditions are hot and temperature is 30 C', 'Unexpected response:' + resMock.send.lastCall.args[0].weather);
   });
   
   
