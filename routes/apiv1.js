@@ -103,7 +103,7 @@ router.get('/getWeather2', exports.getWeather2);
 
 exports.getWeather4 = function(req, res) {
 	var cityName = req.query.cityName;
-	if( (cityName === null) || (typeof(cityName) === 'undefined') ) {
+	if( (cityName === null) || (typeof(cityName) === 'undefined')　|| (cityName === '') ) {
 		return res.status(400).send('Name of the city is missing');
 	}
 
