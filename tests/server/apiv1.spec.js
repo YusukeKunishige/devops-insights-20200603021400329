@@ -143,7 +143,7 @@ describe('Get Weather', function() {
   it('with invalid city name', function() {
   	reqMock = {
       query: {
-      	
+        cityName: ''
       }
     };
     
@@ -169,6 +169,7 @@ describe('Get Weather', function() {
     apiv1.getWeather4(reqMock, resMock);
 
     assert(resMock.status.lastCall.calledWith(400), 'Unexpected response:' + resMock.status.lastCall.args);
+    assert(resMock.send.lastCall.args[0] === 'Name of the city is missing', 'Unexpected response:' + resMock.send.lastCall.args);
 
   });
 });
