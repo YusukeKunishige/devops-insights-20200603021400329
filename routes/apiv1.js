@@ -136,11 +136,11 @@ exports.getWeather5 = function(req, res) {
 	if( (lat === null) || (typeof(lat) === 'undefined')　|| (lat === '') ||  (long === null) || (typeof(long) === 'undefined')　|| (long === '') ) {
 		return res.status(400).send('Coordinate values are missing');
 	}
-	
+
 	var regex = /^-?\d+(\.\d+)?$/;
 	var validLat = regex.test(lat);
 	var validLong = regex.test(long);
-	
+
 	if ((!validLat) || (!validLong)) {
 		return res.status(400).send('Invalid coordinate values');
 	}
@@ -167,6 +167,40 @@ exports.getWeather5 = function(req, res) {
     });
 
 };
-router.get('/getWeather4', exports.getWeather4);
+router.get('/getWeather5', exports.getWeather5);
+
+
+
+exports.getWeather6 = function(req, res) {
+	var city_name = req.parameter.city_name;
+	var temp = req.parameter.temp;
+	var pressure = req.parameter.pressure;
+	var humidity = req.parameter.humidity;
+	var max_temp = req.parameter.max_temp;
+	var min_temp = req.parameter.min_temp;
+	var cond = req.parameter.cond;
+	if( (city_name === null) || (city_name === '') || (temp === null) || (temp === '') || (pressure === null) || (pressure === '') || (humidity === null) 
+	|| (humidity === '') || (max_temp === null) || (max_temp === '') || (min_temp === null) || (min_temp === '') || (cond === null) || (cond === '') ) {
+		return res.status(400).send('One or more input parameters are missing');
+	}
+	
+	var regexint = /^-?\d+(\.\d+)?$/;
+	var regexstring = /^([A-Za-z])+(\s([A-Za-z])+)*$/;
+	var validName = regexstring.test(city_name);
+	var validCond = regexstring.test(cond);
+	var validTemp = regexint.test(temp);
+	var validPressure = regexint.test(pressure);
+	var validHumid = regexint.test(humidity);
+	var validMax = regexint.test(max_temp);
+	var validMin = regexint.test(min_temp);
+	
+	if ((!validName) || (!validCond) || (!validTemp)|| (!validPressure) || (!validHumid) || (!validMax) || (!validMin))   {
+		return res.status(400).send('One or more invalid parameter format');
+	}
+	return res.status(200).send('Good parameters');
+	
+
+};
+router.get('/getWeather6', exports.getWeather6);
 
 exports.router = router;

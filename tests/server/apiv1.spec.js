@@ -242,11 +242,16 @@ describe('Get Weather', function() {
     
   });
   
-  it('with invalid boundary coordinates', function() {
+  it('with valid database input parameters', function() {
   	reqMock = {
-      query: {
-        lat: '-36.85a',
-        long: '174.76b'
+      parameter: {
+        city_name: 'Gisborne',
+        temp: 14.44,
+        pressure: 1004,
+        humidity: 69,
+        min_temp: 14.44,
+        max_temp: 15.56,
+        cond: 'light rain'
       }
     };
     
@@ -269,10 +274,9 @@ describe('Get Weather', function() {
 
     apiv1.__set__("request", request);
 
-    apiv1.getWeather5(reqMock, resMock);
+    apiv1.getWeather6(reqMock, resMock);
 
-    assert(resMock.status.lastCall.calledWith(400), 'Unexpected response:' + resMock.status.lastCall.args);
-    assert(resMock.send.lastCall.args[0] === 'Invalid coordinate values', 'Unexpected response:' + resMock.send.lastCall.args);
-    
+    assert(resMock.status.lastCall.calledWith(200), 'Unexpected response:' + resMock.status.lastCall.args);
+    assert(resMock.send.lastCall.args[0] === 'Good parameters', 'Unexpected response:' + resMock.send.lastCall.args); 
   });
 });
