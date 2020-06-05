@@ -40,8 +40,8 @@
     -->
     <div id="map"></div>
     <div id="mapResults">
-	    <div className="col-sm-8">
-	                <table className="table table-info table-hover">
+	    <div class="col-sm-8">
+	                <table class="table table-info table-hover">
 	                    <tbody>
 	                        <tr>
 	                            <td>City</td>
@@ -118,8 +118,21 @@
                         maxTemp.innerHTML = childData['maxTemp'];
                         cond.innerHTML = childData['cond'];
                     })
-                })
+                })            
 		}
+		
+		function writeData(city, temp, pressure, humid, minTemp, maxTemp, cond) {
+			firebase.database().ref("CityWeather").set({
+                    city: city,
+                    temp: temp,
+                    pressure: pressure,
+                    humid: humid,
+                    minTemp: minTemp,
+                    maxTemp: maxTemp,
+                    cond: cond
+                });
+		}
+		
 	</script>
 	
     <script>
@@ -184,6 +197,8 @@
       	_table.appendChild(_tbody);
       	_colDiv.appendChild(_table);
       	_containDiv.appendChild(_colDiv);
+      	
+      	writeData(json.name, json.main.temp, json.main.pressure, json.main.humidity, json.main.temp_min, json.main.temp_max, json.weather[0].description);
 
       	
       }
